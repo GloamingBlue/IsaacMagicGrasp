@@ -44,7 +44,7 @@ from kinemic_utils import *
 import json
 
 def load_obj_info():
-    obj_file_path = "/home/magiclab/isaaclab_magic/isaaclab_magic-master/scripts/tutorials/magicbot/env/obj_info.json"
+    obj_file_path = "scripts/tutorials/magicbot/env/obj_info.json"  # 修改为相对路径
     obj_info = {}
     with open(obj_file_path, "r") as f:
         json_lines = f.readlines()
@@ -315,7 +315,7 @@ class p5IsaacLabEnv():
             posi = (-0.11867, -0.04411, 0.2025)
             ori = (-0.2967, 0.66134, -0.63436, 0.26868)
         else:
-            posi = (0.02972, -0.09494, -0.14733),
+            posi = (0.02972, -0.09494, -0.14733)  # 删除多余的逗号
             ori = (0.04395, 0.0849, -0.1519, -0.98376)
         self.camera_cfg = CameraCfg(
             prim_path=path,
