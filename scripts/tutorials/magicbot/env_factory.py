@@ -268,7 +268,7 @@ class p5IsaacLabEnv():
 )
         self.sim = sim_utils.SimulationContext(sim_cfg)
         # Set main camera
-        self.sim.set_camera_view([3.5, 2.5, 1.5], [0.0, 0.0, 0.0])
+        self.sim.set_camera_view((3.5, 2.5, 1.5), (0.0, 0.0, 0.0))  # [3.5, 2.5, 1.5], [0.0, 0.0, 0.0]
         # Design scene
         scene_cfg = TableTopSceneCfg(num_envs=args_cli.num_envs, env_spacing=2.0)
         

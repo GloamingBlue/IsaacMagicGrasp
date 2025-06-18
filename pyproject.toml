@@ -64,6 +64,19 @@ known_task_firstparty = "isaaclab_tasks"
 known_local_folder = "config"
 
 [tool.pyright]
+extraPaths = [
+    # 添加需要的路径
+    "source/isaaclab",
+    "source/isaaclab/isaaclab",
+    "source/isaaclab_assets",
+    "source/isaaclab_assets/isaaclab_assets",
+    "source/isaaclab_rl",
+    "source/isaaclab_rl/isaaclab_rl",
+    "source/isaaclab_mimic",
+    "source/isaaclab_mimic/isaaclab_mimic",
+    "source/isaaclab_tasks",
+    "source/isaaclab_tasks/isaaclab_tasks",
+]
 
 include = ["source", "scripts"]
 exclude = [
