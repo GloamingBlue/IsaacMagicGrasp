@@ -34,10 +34,11 @@ from isaaclab.utils import configclass
 from isaaclab.utils.assets import ISAAC_NUCLEUS_DIR
 import omni.usd
 import omni.graph.core as og
-from pxr import Usd, Sdf, UsdGeom
+from pxr import Usd, Sdf, UsdGeom, UsdPhysics
 from isaaclab_assets import HUMANOID_MAGIC_P5_CFG
 from isaaclab.sim.schemas.schemas_cfg import RigidBodyPropertiesCfg
 from isaaclab.sim.spawners.materials import RigidBodyMaterialCfg
+import carb  # 添加carb模块导入
 
 
 from kinemic_utils import *
@@ -79,6 +80,8 @@ spawn_cfg = PinholeCameraCfg.from_intrinsic_matrix(
 plate_x = uniform(0.3, 0.52)
 plate_y = uniform(-0.44, 0.08)
 
+abs_path_factory = os.path.abspath("assets/Factory")[:-14]  # 获取项目根目录的绝对路径
+
 @configclass
 class TableTopSceneCfg(InteractiveSceneCfg):
     """Configuration for a cart-pole scene."""
@@ -92,7 +95,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
     scene = AssetBaseCfg(
         prim_path="/World/Scene",
         spawn=sim_utils.UsdFileCfg(
-            usd_path="assets/Factory/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd",
+            usd_path=os.path.join(abs_path_factory, "assets/Factory/Assets/ArchVis/Industrial/Buildings/Warehouse/Warehouse01.usd"),
             scale=(0.01, 0.01, 0.01)
         )
     )
@@ -102,9 +105,10 @@ class TableTopSceneCfg(InteractiveSceneCfg):
             pos=(0.75, 0.567, 0.045),  # 桌子位置
             rot=(0.5, 0.5, 0.5, 0.5)  # 旋转角度
         ),
-        prim_path="{ENV_REGEX_NS}/Table_01",
+        prim_path="{ENV_REGEX_NS}/Table_01",  # ENV_REGEX_NS：环境命名空间占位符
         spawn=sim_utils.UsdFileCfg(
-            usd_path=f"assets/desk/desk.usd", scale=(0.012, 0.012, 0.012)
+            usd_path=os.path.join(abs_path_factory, "assets/desk/desk.usd"), 
+            scale=(0.012, 0.012, 0.012)
         ),
     )
     
@@ -115,7 +119,8 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/Table_02",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=f"assets/desk/desk.usd", scale=(0.012, 0.012, 0.012)
+            usd_path=os.path.join(abs_path_factory, "assets/desk/desk.usd"), 
+            scale=(0.012, 0.012, 0.012)
         ),
     )
 
@@ -126,7 +131,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/zhuti",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["zhuti"]["path"], scale=OBJ_INFO["zhuti"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["zhuti"]["path"]), scale=OBJ_INFO["zhuti"]["scale"]
         ),
     )
     
@@ -148,7 +153,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/aocao",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["aocao"]["path"], scale=OBJ_INFO["aocao"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["aocao"]["path"]), scale=OBJ_INFO["aocao"]["scale"]
         ),
     )
     
@@ -159,7 +164,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_1",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
     
@@ -170,7 +175,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/plate_a",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["plate_a"]["path"], scale=OBJ_INFO["plate_a"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["plate_a"]["path"]), scale=OBJ_INFO["plate_a"]["scale"]
         ),
     )
     
@@ -181,7 +186,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_2",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
     
@@ -192,7 +197,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_3",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
     
@@ -203,7 +208,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_4",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
     
@@ -214,7 +219,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_5",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
     
@@ -225,11 +230,11 @@ class TableTopSceneCfg(InteractiveSceneCfg):
         ),
         prim_path="{ENV_REGEX_NS}/dianji_6",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=OBJ_INFO["dianji"]["path"], scale=OBJ_INFO["dianji"]["scale"]
+            usd_path=os.path.join(abs_path_factory, OBJ_INFO["dianji"]["path"]), scale=OBJ_INFO["dianji"]["scale"]
         ),
     )
 
-    robot = HUMANOID_MAGIC_P5_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
+    robot = HUMANOID_MAGIC_P5_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")  # type: ignore # Pylance类型错误可忽略
     
     camera_head = CameraCfg(
         prim_path="{ENV_REGEX_NS}/Robot/p5_humanoid/link_hp/Camera_head",
@@ -243,7 +248,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
     )
     
     action_graph = AssetBaseCfg(
-        prim_path="/World/ActionGraph", spawn=sim_utils.UsdFileCfg(usd_path=f"assets/ActionGraph.usd"),
+        prim_path="/World/ActionGraph", spawn=sim_utils.UsdFileCfg(usd_path=os.path.join(abs_path_factory, "assets/ActionGraph.usd")),
     )
 
 
@@ -269,15 +274,42 @@ class p5IsaacLabEnv():
 )
         self.sim = sim_utils.SimulationContext(sim_cfg)
         # Set main camera
-        self.sim.set_camera_view([3.5, 2.5, 1.5], [0.0, 0.0, 0.0])
+        self.sim.set_camera_view((3.5, 2.5, 1.5), (0.0, 0.0, 0.0))  # 参数改为元组
         # Design scene
         scene_cfg = TableTopSceneCfg(num_envs=args_cli.num_envs, env_spacing=2.0)
         
         self.scene = InteractiveScene(scene_cfg)
         self.sim.reset()
+        
+        # 修复资产结构
+        self._fix_asset_structure()
+        
         # Play the simulator
-
         self.sim_dt = self.sim.get_physics_dt()
+        
+    def _fix_asset_structure(self):
+        """修复USD资产结构问题"""
+        from pxr import UsdPhysics, UsdGeom
+        
+        # 修复机器人资产（添加ArticulationRootAPI）
+        robot_prim = self.stage.GetPrimAtPath("/World/envs/env_0/Robot")
+        if robot_prim and not robot_prim.HasAPI(UsdPhysics.ArticulationRootAPI):
+            UsdPhysics.ArticulationRootAPI.Apply(robot_prim)
+            carb.log_info("Applied ArticulationRootAPI to robot asset")
+        
+        # 修复zhuti资产（添加Xform父级）
+        zhuti_prim = self.stage.GetPrimAtPath("/World/envs/env_0/zhuti")
+        if zhuti_prim and not zhuti_prim.IsA(UsdGeom.Xformable):
+            parent_path = "/World/envs/env_0/zhuti_xform"
+            parent_prim = self.stage.DefinePrim(parent_path, "Xform")
+            # 移动原始基元到新父级下
+            zhuti_prim.GetReferences().SetReferences([])
+            zhuti_prim.GetInherits().SetInherits([])
+            zhuti_prim.GetSpecializes().SetSpecializes([])
+            zhuti_prim.Reparent(parent_path)
+            # 应用刚体API到新父级
+            UsdPhysics.RigidBodyAPI.Apply(parent_prim)
+            carb.log_info("Fixed zhuti asset structure")
 
 
     def init_robot(self):
@@ -290,10 +322,7 @@ class p5IsaacLabEnv():
         # Resolving the scene entities
         self.robot_entity_cfg.resolve(self.scene)
         
-
-        # print(f"self.robot_entity_cfg.joint_ids : {self.robot_entity_cfg.joint_ids}\n")
-        # print(f"joint names : {self.robot_entity_cfg.joint_names}")
-        
+        # 设置机器人初始位置
         self.set_robot_position("robot", position=np.array([0.0, 0.0, 0.965]))
 
 
@@ -306,6 +335,11 @@ class p5IsaacLabEnv():
             print(f"✅ 成功绑定 cameraPrim: {camera_prim_path}")
         else:
             print(f"❌ 未找到节点属性: {node_attr_path}")
+            
+        # 启用相机渲染
+        if args_cli.enable_cameras:
+            self.sim.enable_cameras()
+            print("✅ 已启用相机渲染系统")
 
 
     def init_camera(self, path="/World/Camera"):
@@ -570,7 +604,7 @@ class p5IsaacLabEnv():
     def forward_kinematics(self, dh_params):
         """
         接受形如 [(alpha1,a1,d1,theta1), ..., (alpha_n, a_n, d_n, theta_n)] 的 DH 参数列表，
-        返回齐次变换矩阵 T_0_n，表示从基座到末端。
+        返回齐次变换矩阵 T_0_n,表示从基座到末端。
         """
         T = np.eye(4)
         for (alpha, a, d, theta) in dh_params:
@@ -605,3 +639,10 @@ class p5IsaacLabEnv():
 #     print("末端位置 (x,y,z)：", pos)
 #     print("末端旋转矩阵：\n", R)
 
+
+def main():
+    sim = p5IsaacLabEnv()
+
+
+if __name__ == '__main__':
+    main()
