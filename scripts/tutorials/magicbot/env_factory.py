@@ -41,15 +41,16 @@ from isaaclab.sim.spawners.materials import RigidBodyMaterialCfg
 
 
 from kinemic_utils import *
+import os
 import json
 
 def load_obj_info():
-    obj_file_path = "scripts/tutorials/magicbot/env/obj_info.json"
-    obj_info = {}
-    with open(obj_file_path, "r") as f:
-        json_lines = f.readlines()
-        for line in json_lines:
-            obj_info.update(json.loads(line))
+    # 获取当前文件所在目录
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    # 构建obj_info.json的绝对路径
+    obj_file_path = os.path.join(current_dir, "env", "obj_info.json")
+    with open(obj_file_path, 'r') as f:
+        obj_info = json.load(f)
     return obj_info
 
 OBJ_INFO = load_obj_info()
