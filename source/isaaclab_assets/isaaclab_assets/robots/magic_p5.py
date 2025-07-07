@@ -6,6 +6,7 @@ import isaaclab.sim as sim_utils
 from isaaclab.actuators import ImplicitActuatorCfg
 from isaaclab.assets import ArticulationCfg
 from isaaclab.utils.assets import ISAACLAB_NUCLEUS_DIR
+import os
 
 ##
 # Configuration
@@ -29,12 +30,13 @@ joint_list =  ['joint_la1', 'joint_la2', 'joint_la3', 'joint_la4', 'joint_la5', 
 for joint_name in joint_list:
     init_joint_pos.update({joint_name:0.0})
 
+abs_path_factory = os.path.abspath("assets/Factory")[:-14]  # 获取项目根目录的绝对路径
 
 HUMANOID_MAGIC_P5_CFG = ArticulationCfg(
     prim_path="{ENV_REGEX_NS}/Robot",
     spawn=sim_utils.UsdFileCfg(
         # usd_path="/mnt/new_space/code/Wiki-MJCF-master/models/GR1/GR1T1/urdf/GR1T1/GR1T1.usd",
-        usd_path="assets/p5_inspire/p5_robot.usd",
+        usd_path=os.path.join(abs_path_factory, "assets/p5_inspire/p5_robot.usd"),
         rigid_props=sim_utils.RigidBodyPropertiesCfg(
             disable_gravity=None,
             max_depenetration_velocity=100.0,
