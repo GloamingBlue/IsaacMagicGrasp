@@ -312,7 +312,6 @@ class p5IsaacLabEnv():
             UsdPhysics.RigidBodyAPI.Apply(parent_prim)
             carb.log_info("Fixed zhuti asset structure")
 
-
     def init_robot(self):
         self.robot = self.scene["robot"]
         # self.robot_entity_cfg = SceneEntityCfg("robot", joint_names=[".*"], body_names=[".*"])
@@ -325,7 +324,6 @@ class p5IsaacLabEnv():
         
         # 设置机器人初始位置
         self.set_robot_position("robot", position=np.array([0.0, 0.0, 0.965]))
-
 
     def init_action_graph(self):
         camera_prim_path = "/World/envs/env_0/Robot/p5_humanoid/link_hp/Camera_head"
@@ -341,7 +339,6 @@ class p5IsaacLabEnv():
         if args_cli.enable_cameras:
             self.sim.enable_cameras()
             print("✅ 已启用相机渲染系统")
-
 
     def init_camera(self, path="/World/Camera"):
         if path.endswith("head"):
@@ -373,7 +370,6 @@ class p5IsaacLabEnv():
         camera._initialize_impl()
         camera._is_initialized = True
 
-
     def get_joint_idx(self):
         self.joint_idx = []
         self.finger_idx = []
@@ -386,7 +382,6 @@ class p5IsaacLabEnv():
         for finger in finger_names:
             # self.finger_idx.append(joint_idx_seq[joint_name_seq.index(finger)])
             self.finger_idx.append(joint_name_seq.index(finger))
-
 
     def set_robot_position(self, asset_name, position):
         asset: RigidObject | Articulation = self.scene[asset_name]
@@ -409,9 +404,6 @@ class p5IsaacLabEnv():
         # set into the physics simulation
         asset.write_root_pose_to_sim(torch.cat([positions, root_states[:, 3:7]], dim=-1))
 
-        print(f'{root_states[:, 0:3] = }')
-
-    
     def convert_p5_qpos(self, action, finger):
 
         action = torch.tensor(action)
@@ -435,7 +427,6 @@ class p5IsaacLabEnv():
 
         return qpos
     
-
     def run(self, qpos):
 
         # self.robot_entity_cfg._resolve_joint_names(self.scene) # huo qu suo ying
@@ -510,7 +501,6 @@ class p5IsaacLabEnv():
         # self.obj_ori = (tip_ori1 + tip_ori2) / 2
         self.obj_pos = np.array((pos1+pos2)/2)
 
-
     def compute_B_pose(self, A_xyz, A_ori):
         # 转换四元数顺序（Isaac Sim → SciPy）
         A_quat = np.array([A_ori[3], -A_ori[0], -A_ori[1], A_ori[2]])  # [w, -x, -y, z]
@@ -528,7 +518,6 @@ class p5IsaacLabEnv():
 
         return B_xyz, B_quat
     
-
     def update_obj_pos(self, pos):
         # table_prim = XFormPrim("/World/envs/env_0/Table")
         # pos_t, ori_t = table_prim.get_world_poses()
