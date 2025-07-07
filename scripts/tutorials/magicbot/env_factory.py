@@ -142,7 +142,7 @@ class TableTopSceneCfg(InteractiveSceneCfg):
     #     ),
     #     prim_path="{ENV_REGEX_NS}/daogui",
     #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=OBJ_INFO["daogui"]["path"], scale=OBJ_INFO["daogui"]["scale"]
+    #         usd_path=os.path.join(abs_path_factory, OBJ_INFO["daogui"]["path"]), scale=OBJ_INFO["daogui"]["scale"]
     #     ),
     # )
     
@@ -255,12 +255,13 @@ class TableTopSceneCfg(InteractiveSceneCfg):
 class p5IsaacLabEnv():
     def __init__(self):
         self.init_app()
+        # 提前初始化stage，确保_fix_asset_structure可用
+        self.stage = omni.usd.get_context().get_stage()
         self.init_sim()
         self.init_robot()
         # self.scene["obj"]._initialize_impl()
         self.init_memory_buffer = True
         self.get_joint_idx()
-        self.stage = omni.usd.get_context().get_stage()
         self.step_count = 0
 
     def init_app(self):
@@ -400,7 +401,7 @@ class p5IsaacLabEnv():
             dtype=torch.float32,
             device="cuda" 
         )
-        print(new_position)
+        print(f'{new_position = }')
         root_states[:, 0:3] = new_position
 
         positions = root_states[:, 0:3]
@@ -408,7 +409,7 @@ class p5IsaacLabEnv():
         # set into the physics simulation
         asset.write_root_pose_to_sim(torch.cat([positions, root_states[:, 3:7]], dim=-1))
 
-        print(root_states[:, 0:3])
+        print(f'{root_states[:, 0:3] = }')
 
     
     def convert_p5_qpos(self, action, finger):
