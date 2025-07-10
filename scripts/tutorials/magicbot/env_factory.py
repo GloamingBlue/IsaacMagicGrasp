@@ -236,16 +236,16 @@ class TableTopSceneCfg(InteractiveSceneCfg):
 
     robot = HUMANOID_MAGIC_P5_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")  # type: ignore # Pylance类型错误可忽略
     
-    camera_head = CameraCfg(
-        prim_path="{ENV_REGEX_NS}/Robot/p5_humanoid/link_hp/Camera_head",
-        update_period=0.1,
-        height=960,
-        width=1280,
-        data_types=["rgb", "distance_to_image_plane"],
-        spawn=spawn_cfg,
-        offset=CameraCfg.OffsetCfg(pos=(-0.02859, 0.00495, 0.30545), rot=(-0.21418, 0.67389, -0.67389, 0.21418), convention="ros"),
-        # 旋转（需根据实际调整）[-x, w, z, -y]
-    )
+    # camera_head = CameraCfg(
+    #     prim_path="{ENV_REGEX_NS}/Robot/p5_humanoid/link_hp/Camera_head",
+    #     update_period=0.1,
+    #     height=960,
+    #     width=1280,
+    #     data_types=["rgb", "distance_to_image_plane"],
+    #     spawn=spawn_cfg,
+    #     offset=CameraCfg.OffsetCfg(pos=(-0.02859, 0.00495, 0.30545), rot=(-0.21418, 0.67389, -0.67389, 0.21418), convention="ros"),
+    #     # 旋转（需根据实际调整）[-x, w, z, -y]
+    # )
     
     action_graph = AssetBaseCfg(
         prim_path="/World/ActionGraph", spawn=sim_utils.UsdFileCfg(usd_path=os.path.join(abs_path_factory, "assets/ActionGraph.usd")),
